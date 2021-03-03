@@ -1,0 +1,321 @@
+/* Global Variables */
+@root-em: 16px;
+
+/* Margin Variables */
+@margin-multiplier: 0.5rem;
+@margin-classes-num: 5;
+
+/* Shadow Variables */
+@shadow-multiplier: 0.5rem;
+@shadow-opacity: 0.40;
+@shadow-classes-num: 5;
+
+/* Padding Variables */
+@padding-multiplier: 0.5rem;
+@padding-classes-num: 5;
+
+/* Navbar Variables */
+@nb-base-height: 3rem;
+@dark-theme: darkslategrey;
+@light-theme: whitesmoke;
+
+/* Column Variables */
+@column-classes-num: 12;
+@sm-breakpoint: 576px;
+@sm-max-width: 540px;
+@md-breakpoint: 768px;
+@md-max-width: 720px;
+@lg-breakpoint: 992px;
+@lg-max-width: 960px;
+@xl-breakpoint: 1200px;
+@xl-max-width: 1140px;
+
+/* Setup */
+body,html{
+  margin: 0;
+  height: 100%;
+  font-family: sans-serif;
+  font-size: @root-em;
+  box-sizing: border-box;
+}
+
+.navbar{
+  background-color: @dark-theme;
+  height: @nb-base-height;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  &-small:extend(.navbar){
+    height: 3rem;
+  }
+  &-large:extend(.navbar){
+    height: 5rem;
+  }
+  &-menu{
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+
+    &-item:not(.mech-key, .mech-key-linear){
+      color: @light-theme;
+      position: relative;
+      cursor: pointer;
+      letter-spacing: 0.15rem;
+      text-transform: uppercase;
+      font-family: sans-serif;
+      font-size: 0.8rem;
+
+      &:after{
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 120%;
+        height: 0.2rem;
+        width: 100%;
+        border-radius: 1rem;
+        background-color: transparent;
+        opacity: 0;
+        transition: opacity 0.4s;
+      }
+
+      &:hover:after{
+        animation: bc-rgb-cycle both 10s infinite linear;
+        opacity: 1;
+        transition: opacity 0.4s;
+      }
+    }
+  }
+
+  /* Brand Content Type */
+  & .brand, &-light .brand{
+    max-height: @nb-base-height;
+    height: @nb-base-height;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    &-img{
+      height: 70%;
+    }
+    &-type{
+      color: @light-theme;
+      max-font-size: @nb-base-height;
+      font-family: sans-serif;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.15rem;
+      font-size: 1.25rem;
+    }
+  }
+
+  /* Light Theme */
+  &-light:extend(.navbar){
+    background-color: @light-theme;
+  }
+}
+
+
+/* Containers */
+.container{
+  display: block;
+  margin: auto;
+  width: auto;
+
+  @media (min-width: @sm-breakpoint){
+    max-width: @sm-max-width;
+  }
+  @media (min-width: @md-breakpoint){
+    max-width: @md-max-width;
+  }
+  @media (min-width: @lg-breakpoint){
+    max-width: @lg-max-width;
+  }
+  @media (min-width: @xl-breakpoint){
+    max-width: @xl-max-width;
+  }
+}
+
+/* HTML Elements Defaults */
+button{
+  box-sizing: content-box;
+  border: none;
+
+  &:focus{
+    outline: none;
+  }
+}
+
+/* Misc Utility */
+.no-select{
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Shadows */
+.shadow-loop(@i) when (@i > 0){
+  .sh-@{i}{
+    box-shadow: 0 0 calc(@i * @shadow-multiplier) rgba(0,0,0,@shadow-opacity);
+  }
+  .si-@{i}{
+    box-shadow: 0 0 calc(@i * @shadow-multiplier) inset rgba(0,0,0,@shadow-opacity);
+  }
+  .sb-@{i}{
+    box-shadow: 0 0 calc(@i * @shadow-multiplier) rgba(0,0,0,@shadow-opacity),
+    0 0 calc(@i * @shadow-multiplier) inset rgba(0,0,0,@shadow-opacity);
+  }
+  .shadow-loop(@i - 1);
+}
+
+.shadow-loop(@shadow-classes-num);
+
+
+.transparent{
+  background-color: transparent;
+}
+
+.row{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Column Classes */
+.column-setup(@i) when (@i > 0){
+  .col-sm{
+    display: block;
+    width: auto;
+    &-@{i}{
+      @media (min-width: @sm-breakpoint){
+        width: 100%;
+        max-width: calc((@i / @column-classes-num) * 100%);
+      }
+    }
+  }
+  .col-md{
+    display: block;
+    width: auto;
+    &-@{i}{
+      @media (min-width: @md-breakpoint){
+        width: 100%;
+        max-width: calc((@i / @column-classes-num) * 100%);
+      }
+    }
+  }
+  .col-lg{
+    display: block;
+    width: auto;
+    &-@{i}{
+      @media (min-width: @lg-breakpoint){
+        width: 100%;
+        max-width: calc((@i / @column-classes-num) * 100%);
+      }
+    }
+  }
+  .col-xl{
+    display: block;
+    width: auto;
+    &-@{i}{
+      @media (min-width: @xl-breakpoint){
+        width: 100%;
+        max-width: calc((@i / @column-classes-num) * 100%);
+      }
+    }
+  }
+  .column-setup(@i - 1);
+}
+
+.column-setup(@column-classes-num);
+
+/* Margin Classes */
+.margin-setup(@axis, @axis-initial){
+  .m@{axis-initial}-auto when not (@axis-initial = y) and not (@axis-initial = x){
+    margin-@{axis}: auto;
+  }
+  .my-auto when (@axis-initial = y){
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .mx-auto when (@axis-initial = x){
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .margin-loop(@margin-classes-num);
+
+  .margin-loop(@i) when (@i > 0){
+    .m@{axis-initial}-@{i} when not (@axis-initial = y) and not (@axis-initial = x){
+      margin-@{axis}: calc(@margin-multiplier * @i);
+    }
+    .m@{axis-initial}-@{i} when (@axis-initial = y){
+      margin-top: calc(@margin-multiplier * @i);
+      margin-bottom: calc(@margin-multiplier * @i);
+    }
+    .m@{axis-initial}-@{i} when (@axis-initial = x){
+      margin-left: calc(@margin-multiplier * @i);
+      margin-right: calc(@margin-multiplier * @i);
+    }
+    .margin-loop(@i - 1);
+  }
+}
+
+
+.margin(@i) when (@i > 0){
+  .m-@{i}{
+    margin: calc(@margin-multiplier * @i);
+  }
+  .margin(@i - 1);
+}
+
+.margin(@margin-classes-num);
+.margin-setup(y, y);
+.margin-setup(x, x);
+.margin-setup(top, t);
+.margin-setup(bottom, b);
+.margin-setup(left, l);
+.margin-setup(right, r);
+
+/* Padding Classes */
+.padding-setup(@axis, @axis-initial){
+  .p@{axis-initial}-auto when not (@axis-initial = y) and not (@axis-initial = x){
+    padding-@{axis}: auto;
+  }
+  .py-auto when (@axis-initial = y){
+    padding-top: auto;
+    padding-bottom: auto;
+  }
+  .px-auto when (@axis-initial = x){
+    padding-left: auto;
+    padding-right: auto;
+  }
+  .padding-loop(@padding-classes-num);
+
+  .padding-loop(@i) when (@i > 0){
+    .p@{axis-initial}-@{i} when not (@axis-initial = y) and not (@axis-initial = x){
+      padding-@{axis}: calc(@padding-multiplier * @i);
+    }
+    .p@{axis-initial}-@{i} when (@axis-initial = y){
+      padding-top: calc(@padding-multiplier * @i);
+      padding-bottom: calc(@padding-multiplier * @i);
+    }
+    .p@{axis-initial}-@{i} when (@axis-initial = x){
+      padding-left: calc(@padding-multiplier * @i);
+      padding-right: calc(@padding-multiplier * @i);
+    }
+    .padding-loop(@i - 1);
+  }
+}
+
+.padding(@i) when (@i > 0){
+  .p-@{i}{
+    padding: calc(@padding-multiplier * @i);
+  }
+  .padding(@i - 1);
+}
+
+.padding(@padding-classes-num);
+.padding-setup(y, y);
+.padding-setup(x, x);
+.padding-setup(top, t);
+.padding-setup(bottom, b);
+.padding-setup(left, l);
+.padding-setup(right, r);
